@@ -1,0 +1,4 @@
+# Requisitos opcionales: servidor FTP local para las practicas.
+# El cliente ftp_lab.py no necesita dependencias externas.
+pyftpdlib>=1.5.5,<2
+pyOpenSSL>=23.0.0        # solo necesario para --tls (FTPS)

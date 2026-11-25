@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.log
+ftp_root/
+cert.pem
+key.pem
+profiles.ini
+.venv/
+venv/
+*.zip

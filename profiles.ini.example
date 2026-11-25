@@ -1,0 +1,18 @@
+; Copia este fichero como profiles.ini y adapta los valores a tu laboratorio.
+; Nunca guardes aqui contrasenas reales: este fichero es solo para practicar.
+
+[laboratorio]
+host = 127.0.0.1
+port = 2121
+user = labuser
+password = labpass
+secure = false
+no_verify_ssl = false
+
+[ftps_lab]
+host = 127.0.0.1
+port = 2121
+user = labuser
+password = labpass
+secure = true
+no_verify_ssl = true
