@@ -41,7 +41,7 @@ jobs:
           fi
           git config user.name "mirror-bot"
           git config user.email "mirror-bot@users.noreply.github.com"
-          git fetch --all --prune
+          git fetch --prune origin '+refs/heads/*:refs/heads/*' '+refs/tags/*:refs/tags/*'
           URL="https://oauth2:${GITLAB_TOKEN}@${GITLAB_REPO}"
           git push --force --prune "$URL" \
             'refs/heads/*:refs/heads/*' \
