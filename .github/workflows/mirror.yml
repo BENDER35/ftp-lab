@@ -1,8 +1,9 @@
 name: Mirror a GitLab
 
 # GitHub -> GitLab. El camino inverso lo hace .gitlab-ci.yml.
-# Como se usan empujes directos de refs (sin crear commits), cuando ambos
-# repositorios estan igualados el push es un no-op: no hay bucles infinitos.
+# Se clona en modo --mirror (repo desnudo) para no tener una rama checked-out:
+# asi se pueden empujar todas las refs sin Conflictos. Como no se crean commits,
+# cuando ambos repos estan igualados el push es un no-op: no hay bucles.
 
 on:
   push:
@@ -24,10 +25,11 @@ jobs:
   mirror:
     runs-on: ubuntu-latest
     steps:
-      - name: Clonar con historial completo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Clonar este repositorio en modo espejo
+        run: |
+          git clone --mirror \
+            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            mirror.git
 
       - name: Empujar ramas y etiquetas a GitLab
         env:
@@ -39,9 +41,7 @@ jobs:
             echo "Falta el secreto GITLAB_TOKEN en este repositorio."
             exit 1
           fi
-          git config user.name "mirror-bot"
-          git config user.email "mirror-bot@users.noreply.github.com"
-          git fetch --prune origin '+refs/heads/*:refs/heads/*' '+refs/tags/*:refs/tags/*'
+          cd mirror.git
           URL="https://oauth2:${GITLAB_TOKEN}@${GITLAB_REPO}"
           git push --force --prune "$URL" \
             'refs/heads/*:refs/heads/*' \

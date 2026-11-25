@@ -1,13 +1,13 @@
 # GitLab -> GitHub. El camino inverso lo hace .github/workflows/mirror.yml.
-# Los pushes directos de refs no crean commits: si ya estan igualados no se
-# emite un nuevo evento y, por tanto, no se produce un bucle.
+# GIT_STRATEGY: none evita el checkout en HEAD desacoplado: hacemos nosotros un
+# clone --mirror y empujamos las refs. Los pushes directos no crean commits,
+# asi que si ya estan igualados no se emite un evento nuevo (sin bucles).
 
 stages:
   - mirror
 
 variables:
-  GIT_DEPTH: "0"
-  GIT_STRATEGY: fetch
+  GIT_STRATEGY: none
 
 mirror_to_github:
   stage: mirror
@@ -24,11 +24,8 @@ mirror_to_github:
         echo "Falta la variable GH_TOKEN en este proyecto de GitLab."
         exit 1
       fi
-      git config user.name "mirror-bot"
-      git config user.email "mirror-bot@users.noreply.gitlab.com"
-      # El runner deja el checkout en HEAD desacoplado: hay que crear las refs
-      # locales antes de empujar, o --prune intentaria borrar la rama remota.
-      git fetch --prune origin '+refs/heads/*:refs/heads/*' '+refs/tags/*:refs/tags/*'
+      git clone --mirror "$CI_REPOSITORY_URL" mirror.git
+      cd mirror.git
       URL="https://x-access-token:${GH_TOKEN}@github.com/BENDER35/ftp-lab.git"
       git push --force --prune "$URL" \
         'refs/heads/*:refs/heads/*' \
