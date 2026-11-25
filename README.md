@@ -135,6 +135,12 @@ bash scripts/verify_mirror.sh
 
 Repositorios: [GitHub](https://github.com/BENDER35/ftp-lab) · [GitLab](https://gitlab.com/BENDER_5000/ftp-lab)
 
+**Configuración actual:** los secretos `GITLAB_TOKEN` (GitHub Actions) y `GH_TOKEN` (GitLab CI) se crearon con los tokens OAuth de las cuentas que desplegaron el proyecto. Para un uso prolongado, sustitúyelos por tokens de un **usuario bot dedicado** con los permisos mínimos (`write_repository` en GitLab y `repo` en GitHub) y limpia los tokens personales.
+
+## Release
+
+- **v1.0.0** — [GitHub](https://github.com/BENDER35/ftp-lab/releases/tag/v1.0.0) · [GitLab](https://gitlab.com/BENDER_5000/ftp-lab/-/releases/v1.0.0). Ambos incluyen el ZIP `ftp-lab-v1.0.0.zip`.
+
 ## Licencia
 
 [MIT](LICENSE). Uso didáctico y autorizado exclusivamente.
